@@ -1,42 +1,44 @@
 <html ng-app>
-    <head>
-        <title>Todo</title>
-        <script src="https://code.angularjs.org/1.0.1/angular-1.0.1.min.js"></script>
-        <script src="script.js"></script>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div ng-controller="TodoListController">
-          <span>Completed chores: {{ completedChores() }}/{{ todos.length }}.</span>
-          <span>Time ellapsed: {{ ellapsedTime() }}/{{ totalTime() }}</span>
-            <table>
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Chore</th>
-                  <th>Time</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="todo in todos">
-                  <td><input type="checkbox" ng-model="todo.done"></td>
-                  <td class="done-{{todo.done}}">{{ todo.chore }}</td>
-                  <td class="done-{{todo.done}}">{{ todo.time }}</td>
-                  <td><button ng-click="delChore()">x</button></td>
-                </tr>
-                <!-- <tr>
-                  <td>Total</td>
-                  <td>Chores: {{ todos.length }}</td>
-                  <td>Time: {{ totalTime() }}</td>
-                </tr> -->
-              </tbody>
-            </table>
-            <form class="form-inline" name="formItem">
-                <input type="text" ng-model="todo.chore">
-                <input type="number" ng-model="todo.time">
-                <button ng-click="addChore()">Add chore</button>
-              </form>
-        </div>
-    </body>
+  <head>
+    <title>Todo</title>
+    <script src="https://code.angularjs.org/1.0.1/angular-1.0.1.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div ng-controller="TodoListController">
+      <span>Completed tasks: {{ completedTasks() }}/{{ todoList.length }}.</span>
+      <span>Time ellapsed: {{ ellapsedTime() }}/{{ totalTime() }}</span>
+      <button ng-click="startTasks()">Start</button>
+      <button ng-click="pauseTasks()">{{ pauseResume }}</button>
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Chore</th>
+              <th>Time</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="todo in todoList">
+              <!-- <td><input type="checkbox" ng-model="todo.done"></td> -->
+              <td>{{ todo.status }}</td>
+              <td class="done-{{todo.done}}">{{ todo.task }}</td>
+              <td class="done-{{todo.done}}">{{ todo.time }}</td>
+              <td>
+                <button ng-click="doneTask($index)">Done</button>
+                <button ng-click="skipTask($index)">Skip</button>
+                <button ng-click="delTask($index)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <form class="form-inline" name="formItem">
+          <input type="text" ng-model="todo.chore">
+          <input type="number" type="" ng-model="todo.time">
+          <button ng-click="addTask()">Add task</button>
+        </form>
+    </div>
+  </body>
 </html>
