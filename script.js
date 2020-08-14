@@ -13,6 +13,7 @@ function TodoListController($scope) {
 
     $scope.addTask = function() {
         $scope.todoList.push({
+            status: 'Queued',
             task: $scope.todo.task,
             time: $scope.todo.time,
             done: false
