@@ -1,7 +1,8 @@
-<html ng-app>
+<html ng-app="taskcounter">
   <head>
     <title>Todo</title>
-    <script src="https://code.angularjs.org/1.0.1/angular-1.0.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+    <!-- <script src="https://code.angularjs.org/1.0.1/angular-1.0.1.min.js"></script> -->
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
   </head>
@@ -27,6 +28,7 @@
               <td>{{ todo.status }}</td>
               <td class="done-{{todo.done}}">{{ todo.task }}</td>
               <td class="done-{{todo.done}}">{{ todo.time }}</td>
+              <td class="done-{{todo.done}}">/{{  todo.time }}</td>
               <td>
                 <button ng-click="doneTask($index)">Done</button>
                 <button ng-click="skipTask($index)">Skip</button>
