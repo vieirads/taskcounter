@@ -9,10 +9,10 @@
   <body>
     <div ng-controller="TodoListController">
       <span>Completed tasks: {{ completedTasks() }}/{{ todoList.length }}.</span>
-      <span>Time ellapsed: {{ ellapsedTime() }}/{{ totalTime() }}</span>
+      <span>Time ellapsed: {{ ellapsedTime() | date: "HH:mm:ss" }}/{{ totalTime() | date: "HH:mm:ss" }}</span>
       <button ng-click="startTasks()">Start</button>
       <button ng-click="pauseTasks()">{{ pauseResume }}</button>
-      <span>You will finish your tasks at: {{ finalTime() }}</span>
+      <span>You will finish your tasks at: {{ finalTime() | date: "HH:mm:ss" }}</span>
         <table>
           <thead>
             <tr>

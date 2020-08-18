@@ -1,6 +1,5 @@
 var taskcounter = angular.module('taskcounter', []);
 taskcounter.controller("TodoListController", function($scope, $interval) {
-// function TodoListController($scope) {
     $scope.todoList = [
         {status: 'Queued', task: 'Create this app', time: '1:20:00', done: false},
         {status: 'Queued', task: 'Make it work properly', time: '1:30:00', done: false},
@@ -40,24 +39,6 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         // add pauseResume countdown
     }
 
-    let currentDate = new Date();
-    $scope.finalTime = function() {
-        let hours   = currentDate.getHours();
-        let minutes = currentDate.getMinutes();
-        let seconds = currentDate.getSeconds();
-
-        if (hours < 10) {
-            hours = `0${hours}`;
-        }
-        if (minutes < 10) {
-            minutes = `0${minutes}`;
-        }
-        if (seconds < 10) {
-            seconds = `0${seconds}`
-        }
-
-        return `${hours}:${minutes}:${seconds}`;
-    }
 
     $scope.doneTask = function(index) {
         $scope.todoList[index].done = true;
@@ -91,24 +72,7 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         timeCount.setMinutes(totalMinutes);
         timeCount.setSeconds(totalSeconds);
 
-        let displayHours   = timeCount.getHours();
-        let displayMinutes = timeCount.getMinutes();
-        let displaySeconds = timeCount.getSeconds();
-
-        if (displayHours < 10) {
-            displayHours = `0${displayHours}`;
-        }
-
-        if (displayMinutes < 10) {
-            displayMinutes = `0${displayMinutes}`;
-        }
-
-        if (displaySeconds < 10) {
-            displaySeconds = `0${displaySeconds}`;
-        }
-
-
-        return `${displayHours}:${displayMinutes}:${displaySeconds}`;
+        return timeCount;
     }
 
     $scope.completedTasks = function() {
@@ -137,24 +101,22 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         timeCount.setMinutes(ellapsedMinutes);
         timeCount.setSeconds(ellapsedSeconds);
 
-        let displayHours   = timeCount.getHours();
-        let displayMinutes = timeCount.getMinutes();
-        let displaySeconds = timeCount.getSeconds();
-
-        if (displayHours < 10) {
-            displayHours = `0${displayHours}`;
-        }
-
-        if (displayMinutes < 10) {
-            displayMinutes = `0${displayMinutes}`;
-        }
-
-        if (displaySeconds < 10) {
-            displaySeconds = `0${displaySeconds}`;
-        }
-
-        return `${displayHours}:${displayMinutes}:${displaySeconds}`;
+        return timeCount;
     };
+
+    
+    $scope.finalTime = function() {
+        let currentDate = new Date();    
+        let totalTaskTime = $scope.totalTime();   
+
+        let finalTasksTime = new Date();
+
+        finalTasksTime.setHours(currentDate.getHours() + totalTaskTime.getHours());
+        finalTasksTime.setMinutes(currentDate.getMinutes() + totalTaskTime.getMinutes());
+        finalTasksTime.setSeconds(currentDate.getSeconds() + totalTaskTime.getSeconds());
+       
+        return finalTasksTime;
+    }
 
     // testing countdown
     $scope.counter = 0;
