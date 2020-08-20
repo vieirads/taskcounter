@@ -6,11 +6,17 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         {status: 'Queued', task: 'Make the coundown of the current task', time: '01:00:00', done: false},
         {status: 'Queued', task: "Make the 'Start' button works", time: '01:00:00', done: false},
         {status: 'Queued', task: "Make the 'Pause' button works", time: '01:00:00', done: false},
+        {status: 'Queued', task: "Group the tasks by 'Queued' and 'Done'", time: "01:00:00", done: false},
+        {status: 'Queued', task: "Make the design of the app using CSS", time: "02:00:00", done: false},
         {status: 'Done', task: 'Put time in hours:minutes:seconds', time: '01:40:00', done: true},
         {status: 'Done', task: "Make the 'Done' button works", time: '01:25:00', done: true},
         {status: 'Done', task: "Make the 'Skip' button works", time: '00:30:00', done: true},
         {status: 'Done', task: "Make the 'Delete' button works", time: '01:40:00', done: true},
     ];
+
+    for (todo of $scope.todoList) {
+        todo.btnSkip = todo.done ? '-' : 'Skip';
+    }
 
     $scope.hours   = [...Array(24).keys()];
     $scope.minutes = [...Array(12).keys()].map((x) => x*5);
@@ -56,23 +62,21 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
     $scope.doneTask = function(index) {
         $scope.todoList[index].done = true;
         $scope.todoList[index].status = 'Done';
+        $scope.todoList[index].btnSkip = '-';
         // $scope.todoList.push(todoList.splice(index, 1));
     }
 
-    $scope.skipRetake = 'Skip';
+
     $scope.skipTask = function(index) {
-        $scope.skipRetake = 'Skip';
-        if ($scope.skipRetake === 'Skip') {
+        if ($scope.todoList[index].btnSkip === 'Skip') {
             $scope.todoList[index].done = true;
             $scope.todoList[index].status = 'Skipped';
-            $scope.skipRetake = 'Retake';
+            $scope.todoList[index].btnSkip = 'Retake';
         } else {
             $scope.todoList[index].done = false;
             $scope.todoList[index].status = 'Queued';
-            $scope.skipRetake = 'Skip';
+            $scope.todoList[index].btnSkip = 'Skip';
         }
-        // $scope.todoList[index].done = true;
-        // $scope.todoList[index].status = 'Skipped';
     }
 
     $scope.delTask = function(index) {
@@ -108,7 +112,10 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
     $scope.completedTasks = function() {
         let count = 0;
         for (todo of $scope.todoList) {
-            count += todo.done ? 1 : 0;
+            if (todo.done && todo.status !== 'Skipped') {
+                count++;
+            }
+            // count += todo.done ? 1 : 0;
         };
         return count;
     };
