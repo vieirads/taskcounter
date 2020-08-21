@@ -14,6 +14,10 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         {status: 'Done', task: "Make the 'Delete' button works", time: '01:40:00', done: true},
     ];
 
+    Array.prototype.insert = function(item, index) {
+        this.splice(index, 0, item);
+    };
+    
     for (todo of $scope.todoList) {
         todo.btnSkip = todo.done ? '-' : 'Skip';
     }
@@ -28,12 +32,19 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         setTime.setMinutes($scope.minute);
         setTime.setSeconds(0);
 
-        $scope.todoList.push({
+        let queuedCounter = 0;
+        for (todo of $scope.todoList) {
+            queuedCounter += todo.status === 'Queued' ? 1 : 0;
+        }
+
+        $scope.todoList.insert({
             status: 'Queued',
             task: $scope.todo.task,
             time: setTime,
-            done: false
-        });
+            done: false,
+            btnSkip: 'Skip'
+        }, queuedCounter);
+
 
         $scope.todo.task = $scope.todo.time = '';
         $scope.hour = $scope.minute = '';
@@ -58,12 +69,18 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         // add pauseResume countdown
     }
 
-
     $scope.doneTask = function(index) {
         $scope.todoList[index].done = true;
         $scope.todoList[index].status = 'Done';
         $scope.todoList[index].btnSkip = '-';
-        // $scope.todoList.push(todoList.splice(index, 1));
+        
+        let queuedCounter = 0;
+        for (todo of $scope.todoList) {
+            queuedCounter += todo.status === 'Queued' || todo.status === 'Skipped' ? 1 : 0;
+        }
+
+        // $scope.todoList.insert($scope.todoList.splice(index, 1)[0], queuedCounter);
+        $scope.todoList.push($scope.todoList.splice(index, 1)[0]);
     }
 
 
