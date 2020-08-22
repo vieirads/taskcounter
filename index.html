@@ -12,7 +12,7 @@
       <span>Time ellapsed: {{ ellapsedTime() | date: "HH:mm:ss" }}/{{ totalTime() | date: "HH:mm:ss" }}</span>
       <button ng-click="startTasks()">Start</button>
       <button ng-click="pauseTasks()">{{ pauseResume }}</button>
-      <span>You will finish your tasks at: {{ finalTime() | date: "HH:mm:ss" }}</span>
+      <span>You will finish your tasks at: {{ finalTasksTime | date: "HH:mm:ss" }}</span>
         <table>
           <thead>
             <tr>
@@ -27,7 +27,7 @@
               <!-- <td><input type="checkbox" ng-model="todo.done"></td> -->
               <td>{{ todo.status }}</td>
               <td class="done-{{todo.done}}">{{ todo.task }}</td>
-              <td class="done-{{todo.done}}">{{ todo.time | date: "HH:mm:ss" }}</td>
+              <td class="done-{{todo.done}}">{{ todo.decreasingTime | date: "HH:mm:ss" }}</td>
               <td class="done-{{todo.done}}">/{{ todo.time | date: "HH:mm:ss" }}</td>
               <td>
                 <button ng-click="doneTask($index)">Done</button>
