@@ -1,12 +1,12 @@
 var taskcounter = angular.module('taskcounter', []);
-taskcounter.controller("TodoListController", function($scope, $interval) {
+taskcounter.controller("TodoListController", function($scope, $interval, $window) {
     $scope.todoList = [
-        {status: 'Queued', task: 'Create this app', time: '01:20:00', done: false},
-        {status: 'Queued', task: 'Make it work properly', time: '01:30:00', done: false},
-        {status: 'Queued', task: "Make the design of the app using CSS", time: "02:00:00", done: false},
-        {status: 'Queued', task: 'Make the coundown of the current task', time: '01:00:00', done: false},
-        {status: 'Queued', task: "Make the 'Start' button works", time: '01:00:00', done: false},
-        {status: 'Queued', task: "Make the 'Pause' button works", time: '01:00:00', done: false},
+        {status: 'Queued', task: 'Create this app', time: '00:00:03', done: false},
+        {status: 'Queued', task: 'Make it work properly', time: '00:00:03', done: false},
+        {status: 'Queued', task: "Make the design of the app using CSS", time: "00:00:03", done: false},
+        {status: 'Queued', task: 'Make the coundown of the current task', time: '00:00:03', done: false},
+        {status: 'Queued', task: "Make the 'Start' button works", time: '00:00:03', done: false},
+        {status: 'Queued', task: "Make the 'Pause' button works", time: '00:00:03', done: false},
         {status: 'Done', task: 'Put time in hours:minutes:seconds', time: '01:40:00', done: true},
         {status: 'Done', task: "Make the 'Done' button works", time: '01:25:00', done: true},
         {status: 'Done', task: "Make the 'Skip' button works", time: '00:30:00', done: true},
@@ -82,6 +82,15 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
             $scope.todoList[index].done = true;
             $scope.todoList[index].status = 'Skipped';
             $scope.todoList[index].btnSkip = 'Retake';
+            
+            let queuedCounter = 0;
+            for (todo of $scope.todoList) {
+                queuedCounter += todo.status === 'Done' ? 1 : 0;
+            }
+            queuedCounter = $scope.todoList.length - queuedCounter - 1;
+
+            $scope.todoList.insert($scope.todoList.splice(index, 1)[0], queuedCounter);
+
         } else {
             $scope.todoList[index].done = false;
             $scope.todoList[index].status = 'Queued';
@@ -130,7 +139,7 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         return count;
     };
 
-    $scope.ellapsedTime = function() {
+    let ellapsedTime = function() {
         let ellapsedHours   = 0;
         let ellapsedMinutes = 0;
         let ellapsedSeconds = 0;
@@ -151,7 +160,8 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         return timeCount;
     };
 
-    
+    $scope.ellapsedTaskTime = ellapsedTime();
+
     let finalTime = function() {
         let currentDate = new Date();    
         let totalsetTime = $scope.totalTime();   
@@ -167,16 +177,6 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
 
     $scope.finalTasksTime = finalTime();
 
-    var increaseFinalTasksTime = function () {
-        let currentSeconds = $scope.finalTasksTime.getSeconds();
-
-        if ($scope.todoList[0].status !== 'In progress') {
-            currentSeconds++;
-        }
-
-        $scope.finalTasksTime.setSeconds(currentSeconds);
-    }
-
     for (todo of $scope.todoList) {
         let inProgressTaskTime = todo.time.split(':').map((x) => +x);
         todo.decreasingTime = new Date();
@@ -184,32 +184,53 @@ taskcounter.controller("TodoListController", function($scope, $interval) {
         todo.decreasingTime.setMinutes(inProgressTaskTime[1]);
         todo.decreasingTime.setSeconds(inProgressTaskTime[2]);
     }
-    
-    
-    var decreaseInProgressTime = function() {
-        let currentSeconds = todo.decreasingTime[0].getSeconds();
 
-        if ($scope.todoList[0].status === 'In progress') {
-            currentSeconds--;
+    
+    
+    let runTime = function () {
+        let currentFinalSeconds = $scope.finalTasksTime.getSeconds();
+        let ellapsingSeconds    = $scope.ellapsedTaskTime.getSeconds();
+        let currentTaskSeconds  = $scope.todoList[0].decreasingTime.getSeconds();
+
+        if ($scope.todoList[0].status !== 'In progress') {
+            currentFinalSeconds++;
+        } else if ($scope.todoList[0].status === 'In progress') {
+            ellapsingSeconds++;
+            currentTaskSeconds--;
         }
 
-        $scope.todoList[0].decreasingTime.setSeconds(currentSeconds);
+        $scope.finalTasksTime.setSeconds(currentFinalSeconds);
+        $scope.ellapsedTaskTime.setSeconds(ellapsingSeconds);
+        $scope.todoList[0].decreasingTime.setSeconds(currentTaskSeconds);
+
+        let currentTaskHours   = $scope.todoList[0].decreasingTime.getHours();
+        let currentTaskMinutes = $scope.todoList[0].decreasingTime.getMinutes();
+
+        if (currentTaskHours == 0 && currentTaskMinutes == 0 && currentTaskSeconds == 0 && $scope.todoList[0].status === 'In progress') {
+            $scope.todoList[0].done = true;
+            $scope.todoList[0].status = 'Done';
+            $scope.todoList[0].btnSkip = '-';
+            $scope.todoList.push($scope.todoList.splice(0, 1)[0]);
+            if ($scope.todoList[0].status === 'Queued') {
+                $scope.todoList[0].status = 'In progress';
+            }
+        }
+
+        let tasksQueued = 0;
+        for (todo in $scope.todoList) {
+            tasksQueued += todo.done ? 0 : 1;
+        }
     }
+
+    // $scope.alertFinished = function() {
+    //     $window.alert("Finished!");
+    // }
 
     $scope.startTasks = function() {
-        
         $scope.todoList[0].status = 'In progress';
-        // has to stop the final time clock
-        
     }
-
-    $interval(decreaseInProgressTime, 1000);
 
     if ($scope.todoList[0].status !== 'In progress') {
-        $interval(increaseFinalTasksTime, 1000);
+        $interval(runTime, 1000);
     }
-    
-    
-    
-    
 });
