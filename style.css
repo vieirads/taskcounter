@@ -1,4 +1,41 @@
 .done-true {
     text-decoration: line-through;
     color: grey;
-  }
+}
+
+#app {
+  width: 800px;
+  background-color: #f1f1f1;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 
+    10px 10px 10px #00000055,
+    5px  5px  5px  #00000033;
+}
+
+#btn-done {
+  background-color: green;
+  color: #ffffff;
+  border-radius: 5px;
+  border-color: #ffffff;
+  font-weight: bold;
+  width: 60px;
+}
+
+#btn-skip {
+  background-color: orange;
+  color: #ffffff;
+  border-radius: 5px;
+  border-color: #ffffff;
+  font-weight: bold;
+  width: 60px;
+}
+
+#btn-delete {
+  background-color: #ff0000;
+  color: #ffffff;
+  border-radius: 5px;
+  border-color: #ffffff;
+  font-weight: bold;
+  width: 60px;
+}

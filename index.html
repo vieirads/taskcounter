@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div ng-controller="TodoListController">
+    <div id="app" ng-controller="TodoListController">
       <span>Completed tasks: {{ completedTasks() }}/{{ todoList.length }}.</span>
       <span>Time ellapsed: {{ ellapsedTaskTime | date: "HH:mm:ss" }}/{{ totalTime() | date: "HH:mm:ss" }}</span>
       <button ng-click="startTasks()">Start</button>
@@ -30,9 +30,9 @@
               <td class="done-{{todo.done}}">{{ todo.decreasingTime | date: "HH:mm:ss" }}</td>
               <td class="done-{{todo.done}}">/{{ todo.time | date: "HH:mm:ss" }}</td>
               <td>
-                <button ng-click="doneTask($index)">Done</button>
-                <button ng-click="skipTask($index)">{{ todo.btnSkip }}</button>
-                <button ng-click="delTask($index)">Delete</button>
+                <button id="btn-done" ng-click="doneTask($index)">Done</button>
+                <button id="btn-skip" ng-click="skipTask($index)">{{ todo.btnSkip }}</button>
+                <button id="btn-delete" ng-click="delTask($index)">Delete</button>
               </td>
             </tr>
           </tbody>
