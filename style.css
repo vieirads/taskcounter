@@ -1,12 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+:root {
+  --my-green: rgba(126, 200, 232,0.95);
+  --my-blue:  rgba(126, 126, 200,0.95);
+  --my-dark-blue: rgba(63, 93, 153, 0.6);
+  --my-white: #f3f3f3dd;
+  --my-gray: #495057ff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .done-true {
     text-decoration: line-through;
     color: grey;
 }
 
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background: var(--my-blue);
+  background-image: linear-gradient(
+    120deg,
+    var(--my-white),
+    var(--my-gray)
+  ), 
+  url('https://media.wired.com/photos/5ba3f5bfa8af293117556041/master/pass/SyncronizedClocks-166311698-(1).jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 #app {
   width: 800px;
-  background-color: #f1f1f1;
-  padding: 5px;
+  background-color: var(--my-dark-blue);
+  padding: 15px;
   border-radius: 5px;
   box-shadow: 
     10px 10px 10px #00000055,
@@ -14,28 +61,87 @@
 }
 
 #btn-done {
-  background-color: green;
+  background-color: #00ff0055;
   color: #ffffff;
   border-radius: 5px;
-  border-color: #ffffff;
+  border: none;
   font-weight: bold;
   width: 60px;
+  height: 30px;
+}
+
+#btn-done:hover {
+  background-color: #00ff0077;
 }
 
 #btn-skip {
-  background-color: orange;
+  background-color: #f1f1f155;
   color: #ffffff;
   border-radius: 5px;
-  border-color: #ffffff;
+  border: none;
   font-weight: bold;
   width: 60px;
+  height: 30px;
+}
+
+#btn-skip:hover {
+  background-color: #f1f1f177;
 }
 
 #btn-delete {
-  background-color: #ff0000;
+  background-color: #ff0000cc;
   color: #ffffff;
   border-radius: 5px;
-  border-color: #ffffff;
+  border: none;
   font-weight: bold;
   width: 60px;
+  height: 30px;
+}
+
+
+#btn-delete:hover {
+  background-color: #ff0000ff;
+}
+
+#btn-done:focus,
+#btn-skip:focus,
+#btn-delete:focus {
+  outline: none;
+}
+
+#task-input {
+  border-radius: 5px;
+  border: none;
+  width: 300px;
+  height: 30px;
+}
+
+.time-input {
+  border-radius: 5px;
+  width: 60px;
+  height: 30px;
+  background-color: #ffffff;
+}
+
+#task-input:focus,
+.time-input:focus {
+  box-shadow: inset 0 0 5px #0095DD;
+  outline: none;
+}
+
+#btn-add-task {
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  border-color: #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+#btn-add-task:hover {
+  background-color: #0095DD55;
+}
+
+#btn-add-task:focus {
+  outline: none;
 }

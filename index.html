@@ -38,15 +38,15 @@
           </tbody>
         </table>
         <form class="form-inline" name="formItem">
-          <input type="text" ng-model="todo.task">
+          <input id="task-input" type="text" ng-model="todo.task" placeholder="Add a new task.">
           <!-- <input type="text" ng-model="todo.time"> -->
-          <select id="hours" ng-model="hour">
+          <select class="time-input" id="hours" ng-model="hour">
             <option ng-repeat="hour in hours">{{ hour }}</option>
           </select> 
-          <select id="minutes" ng-model="minute">
-            <option ng-repeat="minute in minutes">{{ minute }}</option>
+          <select class="time-input" id="minutes" ng-model="minute">
+            <option  ng-repeat="minute in minutes">{{ minute }}</option>
           </select>
-          <button ng-click="addTask()">Add task</button>
+          <button id="btn-add-task" ng-click="addTask()">Add task</button>
         </form>
     </div>
   </body>
