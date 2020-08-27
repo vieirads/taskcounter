@@ -6,6 +6,11 @@
   --my-dark-blue: rgba(63, 93, 153, 0.6);
   --my-white: #f3f3f3dd;
   --my-gray: #495057ff;
+
+  --btn-border-radius: 5px;
+  --btn-width: 60px;
+  --btn-height: 30px;
+  
 }
 
 *,
@@ -16,7 +21,7 @@
 
 .done-true {
     text-decoration: line-through;
-    color: grey;
+    color: #ffffff;
 }
 
 body {
@@ -60,30 +65,45 @@ body::before {
     5px  5px  5px  #00000033;
 }
 
+#btn-start,
+#btn-pause,
+#btn-resume,
+#btn-done,
+#btn-skip,
+#btn-delete,
+#btn-add-task,
+.time-input
+{
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;  
+}
+
+
+#btn-start,
 #btn-done {
   background-color: #00ff0055;
   color: #ffffff;
-  border-radius: 5px;
   border: none;
   font-weight: bold;
-  width: 60px;
-  height: 30px;
 }
 
+#btn-start:hover,
 #btn-done:hover {
   background-color: #00ff0077;
 }
 
+#btn-pause,
+#btn-resume,
 #btn-skip {
   background-color: #f1f1f155;
   color: #ffffff;
-  border-radius: 5px;
   border: none;
   font-weight: bold;
-  width: 60px;
-  height: 30px;
 }
 
+#btn-pause:hover,
+#btn-resume:hover,
 #btn-skip:hover {
   background-color: #f1f1f177;
 }
@@ -91,21 +111,22 @@ body::before {
 #btn-delete {
   background-color: #ff0000cc;
   color: #ffffff;
-  border-radius: 5px;
   border: none;
   font-weight: bold;
-  width: 60px;
-  height: 30px;
 }
-
 
 #btn-delete:hover {
   background-color: #ff0000ff;
 }
 
+#btn-start:focus,
+#btn-pause:focus,
+#btn-resume:focus,
 #btn-done:focus,
 #btn-skip:focus,
-#btn-delete:focus {
+#btn-delete:focus,
+#btn-add-task:focus
+ {
   outline: none;
 }
 
@@ -117,9 +138,6 @@ body::before {
 }
 
 .time-input {
-  border-radius: 5px;
-  width: 60px;
-  height: 30px;
   background-color: #ffffff;
 }
 
@@ -133,6 +151,7 @@ body::before {
   width: 100px;
   height: 30px;
   border-radius: 5px;
+  font-size: 15px;
   border-color: #ffffff;
   background-color: transparent;
   color: #ffffff;
@@ -144,4 +163,23 @@ body::before {
 
 #btn-add-task:focus {
   outline: none;
+}
+
+.status-Queued,
+.status-Done,
+.status.Paused,
+.status.Skipped {
+  font-weight: 800;
+}
+
+.status-Done {
+  color: #00ff0055;
+}
+
+.status.Skipped {
+  color: red;
+}
+
+.status-Queued {
+  color: #0095DD;
 }

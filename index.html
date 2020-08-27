@@ -10,8 +10,8 @@
     <div id="app" ng-controller="TodoListController">
       <span>Completed tasks: {{ completedTasks() }}/{{ todoList.length }}.</span>
       <span>Time ellapsed: {{ ellapsedTaskTime | date: "HH:mm:ss" }}/{{ totalTime() | date: "HH:mm:ss" }}</span>
-      <button ng-click="startTasks()">Start</button>
-      <button ng-click="pauseTasks()">{{ pauseResume }}</button>
+      <button id="btn-start" ng-click="startTasks()">Start</button>
+      <button id="btn-{{pauseResume}}" ng-click="pauseTasks()">{{ pauseResume }}</button>
       <span>You will finish your tasks at: {{ finalTasksTime | date: "HH:mm:ss" }}</span>
         <table>
           <thead>
@@ -25,7 +25,7 @@
           <tbody>
             <tr ng-repeat="todo in todoList">
               <!-- <td><input type="checkbox" ng-model="todo.done"></td> -->
-              <td>{{ todo.status }}</td>
+              <td class="status-{{todo.status}}">{{ todo.status }}</td>
               <td class="done-{{todo.done}}">{{ todo.task }}</td>
               <td class="done-{{todo.done}}">{{ todo.decreasingTime | date: "HH:mm:ss" }}</td>
               <td class="done-{{todo.done}}">/{{ todo.time | date: "HH:mm:ss" }}</td>
