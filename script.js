@@ -1,17 +1,19 @@
 var taskcounter = angular.module('taskcounter', []);
 taskcounter.controller("TodoListController", function($scope, $interval, $window) {
     $scope.todoList = [
-        {status: 'Queued', task: 'Create this app', time: '00:00:03', done: false},
-        {status: 'Queued', task: 'Make it work properly', time: '00:00:03', done: false},
-        {status: 'Queued', task: "Make the design of the app using CSS", time: "00:00:03", done: false},
-        {status: 'Queued', task: 'Make the coundown of the current task', time: '00:00:03', done: false},
-        {status: 'Queued', task: "Make the 'Start' button works", time: '00:00:03', done: false},
-        {status: 'Queued', task: "Make the 'Pause' button works", time: '00:00:03', done: false},
-        {status: 'Done', task: 'Put time in hours:minutes:seconds', time: '01:40:00', done: true},
-        {status: 'Done', task: "Make the 'Done' button works", time: '01:25:00', done: true},
-        {status: 'Done', task: "Make the 'Skip' button works", time: '00:30:00', done: true},
-        {status: 'Done', task: "Make the 'Delete' button works", time: '01:40:00', done: true},
-        {status: 'Done', task: "Group the tasks by 'Queued' and 'Done'", time: "01:00:00", done: true}
+        {status: "Queued", task: "Added your tasks", time: '00:01:00', done: false},
+        {status: "Queued", task: "Click on the button Start", time: '00:00:05', done: false}
+        // {status: 'Queued', task: 'Create this app', time: '00:00:03', done: false},
+        // {status: 'Queued', task: 'Make it work properly', time: '00:00:03', done: false},
+        // {status: 'Queued', task: "Make the design of the app using CSS", time: "00:00:03", done: false},
+        // {status: 'Queued', task: 'Make the coundown of the current task', time: '00:00:03', done: false},
+        // {status: 'Queued', task: "Make the 'Start' button works", time: '00:00:03', done: false},
+        // {status: 'Queued', task: "Make the 'Pause' button works", time: '00:00:03', done: false},
+        // {status: 'Done', task: 'Put time in hours:minutes:seconds', time: '01:40:00', done: true},
+        // {status: 'Done', task: "Make the 'Done' button works", time: '01:25:00', done: true},
+        // {status: 'Done', task: "Make the 'Skip' button works", time: '00:30:00', done: true},
+        // {status: 'Done', task: "Make the 'Delete' button works", time: '01:40:00', done: true},
+        // {status: 'Done', task: "Group the tasks by 'Queued' and 'Done'", time: "01:00:00", done: true}
     ];
 
     Array.prototype.insert = function(item, index) {
@@ -32,15 +34,23 @@ taskcounter.controller("TodoListController", function($scope, $interval, $window
         setTime.setMinutes($scope.minute);
         setTime.setSeconds(0);
 
+        let taskTime = new Date();
+        taskTime.setHours($scope.hour);
+        taskTime.setMinutes($scope.minute);
+        taskTime.setSeconds(0);
+
         let queuedCounter = 0;
         for (todo of $scope.todoList) {
             queuedCounter += todo.status === 'Queued' ? 1 : 0;
         }
 
+        
+        
         $scope.todoList.insert({
             status: 'Queued',
             task: $scope.todo.task,
-            time: setTime,
+            time: taskTime,
+            decreasingTime: setTime,
             done: false,
             btnSkip: 'Skip'
         }, queuedCounter);
@@ -56,7 +66,7 @@ taskcounter.controller("TodoListController", function($scope, $interval, $window
             $scope.todoList[0].status = 'Paused';
             $scope.pauseResume = 'Resume';
         } else {
-            $scope.todoList[0].status = 'In progress';
+            $scope.todoList[0].status = 'Ongoing';
             $scope.pauseResume = 'Pause';
         }
         // add pauseResume countdown
@@ -192,9 +202,9 @@ taskcounter.controller("TodoListController", function($scope, $interval, $window
         let ellapsingSeconds    = $scope.ellapsedTaskTime.getSeconds();
         let currentTaskSeconds  = $scope.todoList[0].decreasingTime.getSeconds();
 
-        if ($scope.todoList[0].status !== 'In progress') {
+        if ($scope.todoList[0].status !== 'Ongoing') {
             currentFinalSeconds++;
-        } else if ($scope.todoList[0].status === 'In progress') {
+        } else if ($scope.todoList[0].status === 'Ongoing') {
             ellapsingSeconds++;
             currentTaskSeconds--;
         }
@@ -206,13 +216,13 @@ taskcounter.controller("TodoListController", function($scope, $interval, $window
         let currentTaskHours   = $scope.todoList[0].decreasingTime.getHours();
         let currentTaskMinutes = $scope.todoList[0].decreasingTime.getMinutes();
 
-        if (currentTaskHours == 0 && currentTaskMinutes == 0 && currentTaskSeconds == 0 && $scope.todoList[0].status === 'In progress') {
+        if (currentTaskHours == 0 && currentTaskMinutes == 0 && currentTaskSeconds == 0 && $scope.todoList[0].status === 'Ongoing') {
             $scope.todoList[0].done = true;
             $scope.todoList[0].status = 'Done';
             $scope.todoList[0].btnSkip = '-';
             $scope.todoList.push($scope.todoList.splice(0, 1)[0]);
             if ($scope.todoList[0].status === 'Queued') {
-                $scope.todoList[0].status = 'In progress';
+                $scope.todoList[0].status = 'Ongoing';
             }
         }
 
@@ -227,10 +237,14 @@ taskcounter.controller("TodoListController", function($scope, $interval, $window
     // }
 
     $scope.startTasks = function() {
-        $scope.todoList[0].status = 'In progress';
+        $scope.todoList[0].status = 'Ongoing';
     }
 
-    if ($scope.todoList[0].status !== 'In progress') {
+    if ($scope.todoList[0].status !== 'Ongoing') {
         $interval(runTime, 1000);
     }
 });
+
+/*
+Pause the `finish time` when there are no tasks or when all the tasks are done.
+*/ 

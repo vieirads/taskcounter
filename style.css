@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
 :root {
   --my-green: rgba(126, 200, 232,0.95);
@@ -10,7 +11,7 @@
   --btn-border-radius: 5px;
   --btn-width: 60px;
   --btn-height: 30px;
-  
+  --btn-padding: 5px;  
 }
 
 *,
@@ -58,7 +59,7 @@ body::before {
 
 #app {
   width: 800px;
-  background-color: #727f85aa;
+  background-color:#727f85aa;
   color: #ddeaee;
   padding: 15px;
   border-radius: 5px;
@@ -74,11 +75,11 @@ body::before {
 #btn-skip,
 #btn-delete,
 #btn-add-task,
-.time-input
-{
-  width: 80px;
-  height: 30px;
-  border-radius: 5px;  
+.time-input {
+  width: var(--btn-width);;
+  height: var(--btn-height);
+  border-radius: var(--btn-border-radius);  
+  padding: var(--btn-padding);
 }
 
 
@@ -169,19 +170,70 @@ body::before {
 
 .status-Queued,
 .status-Done,
-.status.Paused,
-.status.Skipped {
+.status-Paused,
+.status-Skipped,
+.status-Ongoing {
   font-weight: 800;
 }
 
 .status-Done {
-  color: #00ff0055;
+  color: #11c482;
 }
 
-.status.Skipped {
-  color: red;
+.status-Paused,
+.status-Skipped {
+  color: #f1f1f155;
 }
 
 .status-Queued {
   color: #0095DD;
+}
+
+#action-btns-container {
+  width: 200px;
+  display: flex;
+  justify-content: space-around;
+}
+
+#final-time-message::after {
+  content: '';
+  width: 700px;
+  height: 2px;
+  background-color: #ddeaee;
+  display: block;
+  margin: 10 auto;
+}
+
+#app-name {
+  display: flex;
+  justify-content: center;
+} 
+
+#manage-btns-container {
+  display: flex;
+  justify-content: center;
+}
+
+#status-data,
+#chore-data,
+#remaining-time-data,
+#task-time-data {
+  padding: 0 5px;
+}
+
+.btn--none {
+  pointer-events: none;
+}
+
+.form-inline::before {
+  content: '';
+  width: 700px;
+  height: 2px;
+  background-color: #ddeaee;
+  display: block;
+  margin: 10 auto;
+}
+
+table {
+  padding: 25px 0;
 }
