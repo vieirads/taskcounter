@@ -45,11 +45,12 @@ body::before {
   z-index: -1;
   background: var(--my-blue);
   background-image: linear-gradient(
-    120deg,
-    var(--my-white),
-    var(--my-gray)
-  ), 
-  url('https://media.wired.com/photos/5ba3f5bfa8af293117556041/master/pass/SyncronizedClocks-166311698-(1).jpg');
+    to right,
+    #104f7a 10%,
+    #348a99 60%,
+    #566368
+  );
+  /* url('https://media.wired.com/photos/5ba3f5bfa8af293117556041/master/pass/SyncronizedClocks-166311698-(1).jpg'); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -57,7 +58,8 @@ body::before {
 
 #app {
   width: 800px;
-  background-color: var(--my-dark-blue);
+  background-color: #727f85aa;
+  color: #ddeaee;
   padding: 15px;
   border-radius: 5px;
   box-shadow: 
@@ -82,7 +84,7 @@ body::before {
 
 #btn-start,
 #btn-done {
-  background-color: #00ff0055;
+  background-color: #11c482;
   color: #ffffff;
   border: none;
   font-weight: bold;
@@ -90,7 +92,7 @@ body::before {
 
 #btn-start:hover,
 #btn-done:hover {
-  background-color: #00ff0077;
+  background-color: #3aa47f;
 }
 
 #btn-pause,
