@@ -1,7 +1,7 @@
 var taskcounter = angular.module('taskcounter', []);
 taskcounter.controller("TodoListController", function($scope, $interval, $window) {
     $scope.todoList = [
-        {status: "Queued", task: "Added your tasks", time: '00:01:00', done: false},
+        {status: "Queued", task: "Added your tasks", time: '00:00:05', done: false},
         {status: "Queued", task: "Click on the button Start", time: '00:00:05', done: false}
         // {status: 'Queued', task: 'Create this app', time: '00:00:03', done: false},
         // {status: 'Queued', task: 'Make it work properly', time: '00:00:03', done: false},
@@ -230,11 +230,13 @@ taskcounter.controller("TodoListController", function($scope, $interval, $window
         for (todo in $scope.todoList) {
             tasksQueued += todo.done ? 0 : 1;
         }
-    }
 
-    // $scope.alertFinished = function() {
-    //     $window.alert("Finished!");
-    // }
+        $scope.alertMessage = '';
+        if ($scope.completedTasks() === $scope.todoList.length) {
+            $scope.alertMessage = 'All tasks are done!';
+            $window.alert($scope.alertMessage);
+        }
+    }
 
     $scope.startTasks = function() {
         $scope.todoList[0].status = 'Ongoing';
